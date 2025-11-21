@@ -136,10 +136,8 @@ label_version.grid(row=50, column=0, padx=0, pady=20)
 button = tk.Button(root, text="Lancer", command=jouer_une_partie)
 button.grid(row=1, column=0, pady=20)
 
+
 root.mainloop()
-
-
-
 
 # Lancement du jeu
 #jouer_une_partie()
