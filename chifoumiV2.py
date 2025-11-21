@@ -137,6 +137,8 @@ button = tk.Button(root, text="Lancer", command=jouer_une_partie)
 button.grid(row=1, column=0, pady=20)
 
 
+
+
 root.mainloop()
 
 # Lancement du jeu
