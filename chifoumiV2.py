@@ -1,5 +1,6 @@
 import random
 import tkinter as tk  # on importe tkinter
+
 version = "v0.0.1"
 
 score_joueur = 0
