@@ -121,8 +121,6 @@ def jouer_une_partie():
         print("////// - Score final - \\\\\\\\\\\\")
         print("joueur : " + str(score_joueur) + " - " + str(score_ordinateur)) 
         print()
-    
-
 
 
 root = tk.Tk()
@@ -137,11 +135,7 @@ button = tk.Button(root, text="Lancer", command=jouer_une_partie)
 button.grid(row=1, column=0, pady=20)
 
 
-
-
 root.mainloop()
 
 # Lancement du jeu
 #jouer_une_partie()
-
-
