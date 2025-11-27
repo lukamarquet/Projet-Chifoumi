@@ -1,5 +1,6 @@
 import random
 import tkinter as tk  # on importe tkinter
+from tkinter import ttk
 
 version = "v0.0.1"
 
@@ -14,19 +15,21 @@ CISEAUX = "ciseaux"
 
 def demander_choix_joueur(): 
     choix_valides = [PIERRE, FEUILLE, CISEAUX]
-    while True:
-        choix = input("Choisissez (pierre/feuille/ciseaux) : ")
-        
-        # Convertir en minuscules pour accepter "Pierre", "PIERRE", etc.
-        choix = choix.lower()
-        
-        # Vérifier si le choix est valide
-        if choix in choix_valides:
-            return choix
-        elif choix[0] == "&":
-            return ""
-        else:
-            print("Choix non valide...")
+
+    label_text.config(text="Choisissez une arme :")
+
+    global variable
+    variable = tk.StringVar(value=choix_valides[0])
+
+    choix_menu = tk.OptionMenu(root, variable, *choix_valides)
+    choix_menu.grid(row=20, column=0, pady=20)
+
+    valid_button = tk.Button(root, text="Soumettre", command=recup_choix)
+    valid_button.grid(row=20, column=1, pady=20)
+
+def recup_choix() :
+    choix = variable.get() 
+    return choix
 
 def choix_ordinateur():
     # Créer une liste avec les trois choix possibles
@@ -124,10 +127,12 @@ def jouer_une_partie():
 
 
 root = tk.Tk()
-root.title("Chifoumi - Luka MARQUET")
+root.title("Chifoumi - DZ Mafia")
 root.geometry("600x400")
 
-# Label avec grid
+label_text = tk.Label(root, text="")
+label_text.grid(row=10, column=0, padx=0, pady=20)
+
 label_version = tk.Label(root, text="Chifoumi " + version)
 label_version.grid(row=50, column=0, padx=0, pady=20)
 
