@@ -21,11 +21,15 @@ def demander_choix_joueur():
     variable = tk.StringVar(value=choix_valides[0])
 
     choix_menu = tk.OptionMenu(root, variable, *choix_valides)
-    choix_menu.grid(row=20, column=0, pady=20)
+    choix_menu.grid(row=15, column=0, pady=0)
 
     root.wait_variable(variable)  # Attendre que l'utilisateur fasse un choix
 
     choix = variable.get()
+
+    choix_menu.destroy()
+    label_text.config(text="")
+
     return choix
 
 def choix_ordinateur():
@@ -66,29 +70,33 @@ def determiner_gagnant(choix_joueur, choix_ordi):
 def afficher_resultat(resultat, choix_joueur, choix_ordi):
     
     # Afficher les choix
-    print(f"\nVous avez choisi : {choix_joueur}")
-    print(f"L'ordinateur a choisi : {choix_ordi}")
-    print()  # Ligne vide pour la lisibilité
+    label_text.config(text="Vous avez choisi : " + choix_joueur)
+    label_text2.config(text="L'ordinateur a choisi : " + choix_ordi)
     
     # Afficher le résultat selon le cas
     if resultat == "egalite":
-        print("Match nul !")
+        label_text_result.config(text="Match nul !")
     
     elif resultat == "joueur":
         global score_joueur
         score_joueur += 1
-        print(choix_joueur + " bat " + choix_ordi)
-        print("Vous avez gagné ! 🎉")
+        label_text_annonce.config(text=choix_joueur + " bat " + choix_ordi)
+        label_text_result.config(text="Vous avez gagné ! 🎉")
     
     else:
         global score_ordinateur
         score_ordinateur += 1
-        print(choix_ordi + " bat " + choix_joueur)
-        print("L'ordinateur a gagné !")
+        label_text_annonce.config(text=choix_ordi + " bat " + choix_joueur)
+        label_text_result.config(text="L'ordinateur a gagné !")
 
 
 
 def jouer_une_partie():
+    label_text.config(text="")
+    label_text2.config(text="")
+    label_text_annonce.config(text="")
+    label_text_result.config(text="")
+
     # 1. Demander le choix du joueur
     choix_joueur = demander_choix_joueur()
     if choix_joueur == "":
@@ -123,7 +131,16 @@ root.title("Chifoumi - DZ Mafia")
 root.geometry("600x400")
 
 label_text = tk.Label(root, text="")
-label_text.grid(row=10, column=0, padx=0, pady=20)
+label_text.grid(row=10, column=0, padx=0, pady=0)
+
+label_text2 = tk.Label(root, text="")
+label_text2.grid(row=11, column=0, padx=0, pady=0)
+
+label_text_annonce = tk.Label(root, text="")
+label_text_annonce.grid(row=14, column=0, padx=0, pady=0)
+
+label_text_result = tk.Label(root, text="")
+label_text_result.grid(row=15, column=0, padx=0, pady=0)
 
 label_version = tk.Label(root, text="Chifoumi " + version)
 label_version.grid(row=50, column=0, padx=0, pady=20)
