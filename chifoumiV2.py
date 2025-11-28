@@ -2,8 +2,6 @@ import random
 import tkinter as tk  # on importe tkinter
 from tkinter import ttk
 
-version = "v0.0.1"
-
 score_joueur = 0
 score_ordinateur = 0
 
@@ -92,6 +90,8 @@ def afficher_resultat(resultat, choix_joueur, choix_ordi):
 
 
 def jouer_une_partie():
+    label_text_score.config(text="0 - 0")
+    button.config(state=tk.DISABLED)  # Désactiver le bouton pendant la partie
     label_text.config(text="")
     label_text2.config(text="")
     label_text_annonce.config(text="")
@@ -110,21 +110,42 @@ def jouer_une_partie():
     
     # 4. Afficher le résultat
     afficher_resultat(resultat, choix_joueur, choix_ordi)
+ 
+    label_text_score.config(text=str(score_joueur) + " - " + str(score_ordinateur))
 
-    print("joueur : " + str(score_joueur) + " - " + str(score_ordinateur)) 
-    
-    print()
-    rejouer = input("Voulez vous rejouer ? (oui/non) :  ")
-    print()
-    rejouer.lower()
+    choix_valides = ["oui", "non"]
+    label_text_colum2.config(text="Voulez vous rejouer ? (oui/non) :")
+
+    variable = tk.StringVar(value=choix_valides[0])
+
+    choix_menu_colum2 = tk.OptionMenu(root, variable, *choix_valides)
+    choix_menu_colum2.grid(row=16, column=2, pady=0)
+
+    root.wait_variable(variable)  # Attendre que l'utilisateur fasse un choix
+
+    rejouer = variable.get()
+
+    choix_menu_colum2.destroy()
+    label_text_colum2.config(text="")
+    label_text.config(text="")
+
 
     if rejouer == "oui" or rejouer == "ui" or rejouer == "1":
         jouer_une_partie()
     else : 
-        print("////// - Score final - \\\\\\\\\\\\")
-        print("joueur : " + str(score_joueur) + " - " + str(score_ordinateur)) 
-        print()
+        label_text2.config(text="")
+        label_text_score.config(text="")
+        label_text_annonce.config(text="")
+        label_text.config(text="////// - Score final - \\\\\\\\\\\\")
+        label_text_result.config(text="joueur : " + str(score_joueur) + " - " + str(score_ordinateur))
+        button.config(state=tk.NORMAL)  # Réactiver le bouton après la partie
+        zero()
 
+def zero():
+    global score_joueur
+    global score_ordinateur
+    score_joueur = 0
+    score_ordinateur = 0
 
 root = tk.Tk()
 root.title("Chifoumi - DZ Mafia")
@@ -142,8 +163,11 @@ label_text_annonce.grid(row=14, column=0, padx=0, pady=0)
 label_text_result = tk.Label(root, text="")
 label_text_result.grid(row=15, column=0, padx=0, pady=0)
 
-label_version = tk.Label(root, text="Chifoumi " + version)
-label_version.grid(row=50, column=0, padx=0, pady=20)
+label_text_score = tk.Label(root, text="0 - 0")
+label_text_score.grid(row=1, column=5, padx=0, pady=0)
+
+label_text_colum2 = tk.Label(root, text="")
+label_text_colum2.grid(row=15, column=2, padx=0, pady=0)
 
 button = tk.Button(root, text="Lancer", command=jouer_une_partie)
 button.grid(row=1, column=0, pady=20)
