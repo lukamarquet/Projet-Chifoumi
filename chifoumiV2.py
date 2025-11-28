@@ -18,17 +18,14 @@ def demander_choix_joueur():
 
     label_text.config(text="Choisissez une arme :")
 
-    global variable
     variable = tk.StringVar(value=choix_valides[0])
 
     choix_menu = tk.OptionMenu(root, variable, *choix_valides)
     choix_menu.grid(row=20, column=0, pady=20)
 
-    valid_button = tk.Button(root, text="Soumettre", command=recup_choix)
-    valid_button.grid(row=20, column=1, pady=20)
+    root.wait_variable(variable)  # Attendre que l'utilisateur fasse un choix
 
-def recup_choix() :
-    choix = variable.get() 
+    choix = variable.get()
     return choix
 
 def choix_ordinateur():
@@ -92,12 +89,6 @@ def afficher_resultat(resultat, choix_joueur, choix_ordi):
 
 
 def jouer_une_partie():
-    # Afficher le titre
-    print("=" * 40)
-    print("       PIERRE - FEUILLE - CISEAUX")
-    print("=" * 40)
-    print()
-    
     # 1. Demander le choix du joueur
     choix_joueur = demander_choix_joueur()
     if choix_joueur == "":
@@ -118,6 +109,7 @@ def jouer_une_partie():
     rejouer = input("Voulez vous rejouer ? (oui/non) :  ")
     print()
     rejouer.lower()
+
     if rejouer == "oui" or rejouer == "ui" or rejouer == "1":
         jouer_une_partie()
     else : 
