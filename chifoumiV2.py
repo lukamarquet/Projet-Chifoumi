@@ -139,9 +139,9 @@ def jouer_une_partie():
         label_text.config(text="////// - Score final - \\\\\\\\\\\\")
         label_text_result.config(text="joueur : " + str(score_joueur) + " - " + str(score_ordinateur))
         button.config(state=tk.NORMAL)  # Réactiver le bouton après la partie
-        zero()
+        score_zero()
 
-def zero():
+def score_zero():
     global score_joueur
     global score_ordinateur
     score_joueur = 0
