@@ -4,6 +4,8 @@ import winsound
 
 font_taille = 10
 font_taille_grand = 14
+
+nbr_parties = 0
 score_joueur = 0
 score_ordinateur = 0
 
@@ -53,6 +55,9 @@ def afficher_resultat(resultat, choix_joueur, choix_ordi):
     label_text.config(text="Vous avez choisi : " + choix_joueur)
     label_text2.config(text="L'ordinateur a choisi : " + choix_ordi)
     
+    global nbr_parties
+    nbr_parties += 1
+
     if resultat == "egalite":
         label_text_result.config(text="Match nul !", fg="orange", font=("Arial", font_taille_grand, "bold"))
     
@@ -69,7 +74,9 @@ def afficher_resultat(resultat, choix_joueur, choix_ordi):
         label_text_result.config(text="L'ordinateur a gagné !", fg="red", font=("Arial", font_taille_grand, "bold"))
 
 def jouer_une_partie():
-    jouer_son("Ressources/Ressources/ambiance/theme.wav")
+    if nbr_parties == 0:
+        jouer_son("Ressources/Ressources/ambiance/theme.wav")
+
     button.config(state=tk.DISABLED)
     label_text.config(text="", fg="black", font=("Arial", font_taille, "bold"))
     label_text2.config(text="")
@@ -133,7 +140,8 @@ def jouer_une_partie():
         score_zero()
 
 def score_zero():
-    global score_joueur, score_ordinateur
+    global score_joueur, score_ordinateur, nbr_parties
+    nbr_parties = 0
     score_joueur = 0
     score_ordinateur = 0
 
