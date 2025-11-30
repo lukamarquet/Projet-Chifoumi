@@ -1,5 +1,6 @@
 import random
 import tkinter as tk
+import winsound
 
 font_taille = 10
 font_taille_grand = 14
@@ -9,6 +10,9 @@ score_ordinateur = 0
 PIERRE = "pierre"
 FEUILLE = "feuille"
 CISEAUX = "ciseaux"
+
+def jouer_son(chemin):
+    winsound.PlaySound(chemin, winsound.SND_FILENAME | winsound.SND_ASYNC)
 
 def demander_choix_joueur(): 
     choix_valides = [PIERRE, FEUILLE, CISEAUX]
@@ -65,6 +69,7 @@ def afficher_resultat(resultat, choix_joueur, choix_ordi):
         label_text_result.config(text="L'ordinateur a gagné !", fg="red", font=("Arial", font_taille_grand, "bold"))
 
 def jouer_une_partie():
+    jouer_son("Ressources/Ressources/ambiance/theme.wav")
     button.config(state=tk.DISABLED)
     label_text.config(text="", fg="black", font=("Arial", font_taille, "bold"))
     label_text2.config(text="")
@@ -165,6 +170,7 @@ label_text_result2.place(relx=0.5, rely=0.55, anchor="center")
 label_text_colum2 = tk.Label(root, text="", font=("Arial", font_taille, "bold"))
 label_text_colum2.place(relx=0.5, rely=0.60, anchor="center")
 
+jouer_son("Ressources/Ressources/ambiance/cool-sound.wav")
 root.mainloop()
 
 # Lancement du jeu
