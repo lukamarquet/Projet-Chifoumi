@@ -1,9 +1,16 @@
 import random
 import tkinter as tk
 import winsound
+import tkinter.font as tkFont
+
+root = tk.Tk()
+root.title("Chifoumi - DZ Mafia")
+root.iconbitmap("Ressources/Ressources/logo/logo.ico") 
+root.geometry("600x400")
 
 font_taille = 10
 font_taille_grand = 14
+font_underline = tkFont.Font(family="Arial", size=12, underline=1)
 
 nbr_parties = 0
 score_joueur = 0
@@ -24,6 +31,7 @@ def demander_choix_joueur():
     variable = tk.StringVar(value=choix_valides[0])
 
     choix_menu = tk.OptionMenu(root, variable, *choix_valides)
+    choix_menu.config(cursor="hand2")
     choix_menu.place(relx=0.5, rely=0.45, anchor="center")
 
     root.wait_variable(variable)
@@ -58,26 +66,40 @@ def afficher_resultat(resultat, choix_joueur, choix_ordi):
     global nbr_parties
     nbr_parties += 1
 
+    conjugaison = " bat "
+
+    if choix_joueur == CISEAUX:
+        choix_joueur = "les ciseaux"
+        conjugaison = " battent "
+    else :
+        choix_joueur = "la " + choix_joueur
+
+    if choix_ordi == CISEAUX:
+        choix_ordi = "les ciseaux"
+        conjugaison = " battent "
+    else :
+        choix_ordi = "la " + choix_ordi
+
     if resultat == "egalite":
         label_text_result.config(text="Match nul !", fg="orange", font=("Arial", font_taille_grand, "bold"))
     
     elif resultat == "joueur":
         global score_joueur
         score_joueur += 1
-        label_text_annonce.config(text=choix_joueur + " bat " + choix_ordi)
+        label_text_annonce.config(text=choix_joueur + conjugaison + choix_ordi, font=font_underline)
         label_text_result.config(text="Vous avez gagné ! 🎉", fg="green", font=("Arial", font_taille_grand, "bold"))
     
     else:
         global score_ordinateur
         score_ordinateur += 1
-        label_text_annonce.config(text=choix_ordi + " bat " + choix_joueur)
+        label_text_annonce.config(text=choix_ordi + conjugaison + choix_joueur, font=font_underline)
         label_text_result.config(text="L'ordinateur a gagné !", fg="red", font=("Arial", font_taille_grand, "bold"))
 
 def jouer_une_partie():
     if nbr_parties == 0:
         jouer_son("Ressources/Ressources/ambiance/theme.wav")
 
-    button.config(state=tk.DISABLED)
+    button.config(state=tk.DISABLED, cursor="X_cursor")
     label_text.config(text="", fg="black", font=("Arial", font_taille, "bold"))
     label_text2.config(text="")
     label_text_annonce.config(text="")
@@ -106,6 +128,7 @@ def jouer_une_partie():
     variable = tk.StringVar(value=choix_valides[0])
 
     choix_menu_colum2 = tk.OptionMenu(root, variable, *choix_valides)
+    choix_menu_colum2.config(cursor="hand2")
     choix_menu_colum2.place(relx=0.5, rely=0.65, anchor="center")
 
     root.wait_variable(variable)
@@ -136,31 +159,28 @@ def jouer_une_partie():
         label_text.config(text="////// - Score final - \\\\\\\\\\\\", fg=color, font=("Arial", font_taille_grand, "bold"))
         label_text_result2.config(text=str(score_joueur) + " - " + str(score_ordinateur), fg=color, font=("Arial", font_taille_grand, "bold"))
 
-        button.config(state=tk.NORMAL, text="Rejouer")
-        score_zero()
+        button.config(state=tk.NORMAL, text="Rejouer", cursor="hand2")
+        remise_a_zero()
 
-def score_zero():
+def remise_a_zero():
     global score_joueur, score_ordinateur, nbr_parties
     nbr_parties = 0
     score_joueur = 0
     score_ordinateur = 0
 
-root = tk.Tk()
-root.title("Chifoumi - DZ Mafia")
-root.geometry("600x400")
 
 # --- PLACEMENTS ELEMENTS ---
 
-# Score en haut à droite
+# Éléments en haut à droite
 label_text_score = tk.Label(root, text="0 - 0", font=("Arial", font_taille_grand, "bold"))
 label_text_score.place(relx=1, rely=0, x=-10, y=10, anchor="ne")
 
-# Bouton en haut à gauche
-button = tk.Button(root, text="Lancer", command=jouer_une_partie, font=("Arial", font_taille-2, "bold"))
+# Éléments en haut à gauche
+button = tk.Button(root, text="Lancer", command=jouer_une_partie, font=("Arial", font_taille-2, "bold"), cursor="hand2")
 button.place(relx=0, rely=0, x=10, y=10, anchor="nw")
 
 # Éléments centraux
-label_text = tk.Label(root, text="Lancer d'abord la partie afin de jouer.", font=("Arial", font_taille_grand, "bold"))
+label_text = tk.Label(root, text="Lancer d'abord une partie afin de jouer.", font=("Arial", font_taille_grand, "bold"))
 label_text.place(relx=0.5, rely=0.30, anchor="center")
 
 label_text2 = tk.Label(root, text="", font=("Arial", font_taille, "bold"))
@@ -178,8 +198,6 @@ label_text_result2.place(relx=0.5, rely=0.55, anchor="center")
 label_text_colum2 = tk.Label(root, text="", font=("Arial", font_taille, "bold"))
 label_text_colum2.place(relx=0.5, rely=0.60, anchor="center")
 
+
 jouer_son("Ressources/Ressources/ambiance/cool-sound.wav")
 root.mainloop()
-
-# Lancement du jeu
-#jouer_une_partie()
